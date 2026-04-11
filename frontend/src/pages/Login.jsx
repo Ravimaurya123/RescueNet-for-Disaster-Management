@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -16,12 +16,18 @@ const Login = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.msg || 'Invalid credentials. Please try again.');
+      console.error('Full Login Error Object:', err);
+      const errorMsg = err.response?.data?.errors
+        ? err.response.data.errors.map(e => e.msg).join(', ')
+        : err.response?.data?.msg
+        || (err.request ? 'Server unreachable. Check backend URL and CORS.' : 'An unexpected error occurred.');
+
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -47,9 +53,9 @@ const Login = () => {
             <label className="form-label">Email Address</label>
             <div style={{ position: 'relative' }}>
               <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-              <input 
-                type="email" 
-                className="form-input" 
+              <input
+                type="email"
+                className="form-input"
                 placeholder="agency@example.com"
                 style={{ paddingLeft: '40px' }}
                 value={email}
@@ -63,9 +69,9 @@ const Login = () => {
             <label className="form-label">Password</label>
             <div style={{ position: 'relative' }}>
               <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-              <input 
-                type="password" 
-                className="form-input" 
+              <input
+                type="password"
+                className="form-input"
                 placeholder="••••••••"
                 style={{ paddingLeft: '40px' }}
                 value={password}
@@ -75,9 +81,9 @@ const Login = () => {
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            className="btn-primary" 
+          <button
+            type="submit"
+            className="btn-primary"
             style={{ width: '100%', justifyContent: 'center', marginTop: '1rem' }}
             disabled={loading}
           >

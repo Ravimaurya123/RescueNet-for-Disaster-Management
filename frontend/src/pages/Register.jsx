@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios'; // Ensure path is correct to your axios.js
 import { Shield, User, Mail, Phone, Lock, MapPin, CheckCircle } from 'lucide-react';
 
 const Register = () => {
@@ -14,11 +14,11 @@ const Register = () => {
     lng: 78.9629,
     address: ''
   });
-  
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,10 +29,10 @@ const Register = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       // Use the new unified atomic endpoint
-      await axios.post('/api/auth/register-agency', {
+      await api.post('/api/auth/register-agency', {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -48,7 +48,13 @@ const Register = () => {
       setSuccess(true);
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {
-      setError(err.response?.data?.msg || 'Registration failed. Please check your details.');
+      console.error('Registration Error:', err);
+      const errorMsg = err.response?.data?.errors
+        ? err.response.data.errors.map(e => e.msg).join(', ')
+        : err.response?.data?.msg
+        || 'Registration failed. Ensure the backend API is reachable.';
+
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -130,28 +136,28 @@ const Register = () => {
             </div>
 
             <div style={{ gridColumn: 'span 2', background: 'rgba(255, 255, 255, 0.03)', padding: '2.5rem', borderRadius: '1.25rem', border: '1px solid var(--glass-border)', marginTop: '1rem' }}>
-                <h4 style={{ marginBottom: '1.5rem', fontSize: '1rem', color: '#3b82f6', display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 700 }}>
-                  <MapPin size={20} /> PRIMARY DEPLOYMENT BASE
-                </h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                  <div className="form-group">
-                    <label className="form-label">Station Latitude</label>
-                    <input name="lat" type="number" step="any" className="form-input" value={formData.lat} onChange={handleChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Station Longitude</label>
-                    <input name="lng" type="number" step="any" className="form-input" value={formData.lng} onChange={handleChange} required />
-                  </div>
+              <h4 style={{ marginBottom: '1.5rem', fontSize: '1rem', color: '#3b82f6', display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 700 }}>
+                <MapPin size={20} /> PRIMARY DEPLOYMENT BASE
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                <div className="form-group">
+                  <label className="form-label">Station Latitude</label>
+                  <input name="lat" type="number" step="any" className="form-input" value={formData.lat} onChange={handleChange} required />
                 </div>
-                <div className="form-group" style={{ marginBottom: 0 }}>
-                  <label className="form-label">Headquarters Address</label>
-                  <input name="address" type="text" className="form-input" placeholder="e.g. 101 Command Center, Silicon Valley" value={formData.address} onChange={handleChange} required />
+                <div className="form-group">
+                  <label className="form-label">Station Longitude</label>
+                  <input name="lng" type="number" step="any" className="form-input" value={formData.lng} onChange={handleChange} required />
                 </div>
+              </div>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Headquarters Address</label>
+                <input name="address" type="text" className="form-input" placeholder="e.g. 101 Command Center, Silicon Valley" value={formData.address} onChange={handleChange} required />
+              </div>
             </div>
 
-            <button 
-              type="submit" 
-              className="btn-primary" 
+            <button
+              type="submit"
+              className="btn-primary"
               style={{ gridColumn: 'span 2', marginTop: '2rem', padding: '1.25rem', height: '64px' }}
               disabled={loading}
             >
