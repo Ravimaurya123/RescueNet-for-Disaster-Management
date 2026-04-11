@@ -11,17 +11,16 @@ const app = express();
 connectDB();
 
 // Middleware
-// app.use(cors({
-//   origin:[
-//     "http://localhost:5173",
-//     "https://rescuenet-frontend.onrender.com"
-//   ],
-//   credentials:true
-// }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://rescuenet-frontend.onrender.com'
+];
 
-
-app.use(cors({ origin: 'https://rescuenet-frontend.onrender.com' }));
-
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 app.use(express.json());
 
@@ -39,7 +38,7 @@ app.use('/api/incidents', require('./routes/incidents'));
 if (process.env.NODE_ENV === 'production') {
   const frontendPath = path.join(__dirname, '../frontend/dist');
   app.use(express.static(frontendPath));
-  
+
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(frontendPath, 'index.html'));
   });
