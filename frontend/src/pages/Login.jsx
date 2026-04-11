@@ -21,11 +21,11 @@ const Login = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      console.error('Login Error:', err);
+      console.error('Full Login Error Object:', err);
       const errorMsg = err.response?.data?.errors
         ? err.response.data.errors.map(e => e.msg).join(', ')
         : err.response?.data?.msg
-        || 'Invalid credentials. Please try again.';
+        || (err.request ? 'Connection failed. Is the backend URL correct?' : 'Invalid credentials. Please try again.');
       setError(errorMsg);
     } finally {
       setLoading(false);
