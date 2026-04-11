@@ -14,7 +14,8 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  'https://rescuenet-frontend.onrender.com'
+  'https://rescuenet-frontend.onrender.com',
+  'https://rescuenet-frontend.onrender.com/'
 ];
 
 app.use(cors({
@@ -25,6 +26,11 @@ app.use(cors({
 app.use(express.json());
 
 // Logging in development
+app.use((req, res, next) => {
+  console.log(`${req.method} request to ${req.url}`);
+  next();
+});
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }

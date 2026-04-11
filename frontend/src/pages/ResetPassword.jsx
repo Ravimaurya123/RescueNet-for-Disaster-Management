@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import { Lock, ArrowRight, Shield, CheckCircle } from 'lucide-react';
 
 const ResetPassword = () => {
@@ -15,7 +15,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     if (password !== confirmPassword) {
       return setError('Passwords do not match.');
     }
@@ -23,7 +23,7 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      await axios.put(`/api/auth/reset-password/${token}`, { password });
+      await api.put(`/api/auth/reset-password/${token}`, { password });
       setSuccess(true);
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
@@ -63,9 +63,9 @@ const ResetPassword = () => {
                 <label className="form-label">New Password</label>
                 <div style={{ position: 'relative' }}>
                   <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                  <input 
-                    type="password" 
-                    className="form-input" 
+                  <input
+                    type="password"
+                    className="form-input"
                     placeholder="Enter new password"
                     style={{ paddingLeft: '40px' }}
                     value={password}
@@ -79,9 +79,9 @@ const ResetPassword = () => {
                 <label className="form-label">Confirm Password</label>
                 <div style={{ position: 'relative' }}>
                   <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                  <input 
-                    type="password" 
-                    className="form-input" 
+                  <input
+                    type="password"
+                    className="form-input"
                     placeholder="Confirm password"
                     style={{ paddingLeft: '40px' }}
                     value={confirmPassword}
@@ -91,9 +91,9 @@ const ResetPassword = () => {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
-                className="btn-primary" 
+              <button
+                type="submit"
+                className="btn-primary"
                 style={{ width: '100%', justifyContent: 'center' }}
                 disabled={loading}
               >
