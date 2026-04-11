@@ -135,11 +135,11 @@ const Register = () => {
               </select>
             </div>
 
-            <div style={{ gridColumn: 'span 2', background: 'rgba(255, 255, 255, 0.03)', padding: '2.5rem', borderRadius: '1.25rem', border: '1px solid var(--glass-border)', marginTop: '1rem' }}>
+            <div style={{ gridColumn: '1 / -1', background: 'rgba(255, 255, 255, 0.03)', padding: 'clamp(1rem, 4vw, 2.5rem)', borderRadius: '1.25rem', border: '1px solid var(--glass-border)', marginTop: '1rem' }}>
               <h4 style={{ marginBottom: '1.5rem', fontSize: '1rem', color: '#3b82f6', display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 700 }}>
                 <MapPin size={20} /> PRIMARY DEPLOYMENT BASE
               </h4>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem' }}>
                 <div className="form-group">
                   <label className="form-label">Station Latitude</label>
                   <input name="lat" type="number" step="any" className="form-input" value={formData.lat} onChange={handleChange} required />
@@ -158,7 +158,7 @@ const Register = () => {
             <button
               type="submit"
               className="btn-primary"
-              style={{ gridColumn: 'span 2', marginTop: '2rem', padding: '1.25rem', height: '64px' }}
+              style={{ gridColumn: '1 / -1', marginTop: '2rem', padding: '1.25rem', height: 'auto', minHeight: '64px' }}
               disabled={loading}
             >
               {loading ? 'Initializing Profile...' : 'Finalize Agency Registration'}

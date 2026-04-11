@@ -21,13 +21,7 @@ const Login = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      console.error('Full Login Error Object:', err);
-      const errorMsg = err.response?.data?.errors
-        ? err.response.data.errors.map(e => e.msg).join(', ')
-        : err.response?.data?.msg
-        || (err.request ? 'Server unreachable. Check backend URL and CORS.' : 'An unexpected error occurred.');
-
-      setError(errorMsg);
+      setError(err.response?.data?.msg || 'Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -35,7 +29,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="glass auth-card">
+      <div className="glass auth-card" style={{ width: '95%', maxWidth: '450px', margin: '1rem', padding: 'clamp(1.5rem, 5vw, 2.5rem)' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Shield size={48} color="#ef4444" style={{ margin: '0 auto 1rem' }} />
           <h2 style={{ fontSize: '1.875rem', fontWeight: 700 }}>Welcome Back</h2>

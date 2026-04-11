@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import axios from 'axios';
+import api from '../api/axios';
 import L from 'leaflet';
 import { Shield, AlertTriangle, Navigation, MapPin } from 'lucide-react';
 
@@ -9,10 +9,10 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
@@ -27,8 +27,8 @@ const MapPage = () => {
     const fetchData = async () => {
       try {
         const [agenciesRes, incidentsRes] = await Promise.all([
-          axios.get('/api/agencies'),
-          axios.get('/api/incidents')
+          api.get('/api/agencies'),
+          api.get('/api/incidents')
         ]);
         setAgencies(agenciesRes.data);
         setIncidents(incidentsRes.data);
@@ -63,16 +63,16 @@ const MapPage = () => {
   return (
     <div className="map-page-container fade-in">
       {/* Controls Overlay */}
-      <div style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div className="glass" style={{ padding: '1.5rem', width: '280px' }}>
+      <div style={{ position: 'absolute', top: '10px', left: '10px', right: '10px', zIndex: 1000, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '10px', pointerEvents: 'none' }}>
+        <div className="glass" style={{ padding: '1rem', width: '100%', maxWidth: '280px', pointerEvents: 'auto' }}>
           <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', fontWeight: 700 }}>
             <Navigation size={22} color="var(--primary)" />
             Live Monitor
           </h3>
-          
+
           <div className="form-group" style={{ marginBottom: '1rem' }}>
             <label className="form-label">Filter by Type</label>
-            <select className="form-input" value={filter.type} onChange={(e) => setFilter({...filter, type: e.target.value})}>
+            <select className="form-input" value={filter.type} onChange={(e) => setFilter({ ...filter, type: e.target.value })}>
               <option value="All">All Types</option>
               <option value="Flood">Flood</option>
               <option value="Fire">Fire</option>
@@ -84,17 +84,17 @@ const MapPage = () => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', cursor: 'pointer', color: 'white' }}>
-              <input type="checkbox" checked={filter.showAgencies} onChange={() => setFilter({...filter, showAgencies: !filter.showAgencies})} />
+              <input type="checkbox" checked={filter.showAgencies} onChange={() => setFilter({ ...filter, showAgencies: !filter.showAgencies })} />
               Show Rescue Agencies
             </label>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', cursor: 'pointer', color: 'white' }}>
-              <input type="checkbox" checked={filter.showIncidents} onChange={() => setFilter({...filter, showIncidents: !filter.showIncidents})} />
+              <input type="checkbox" checked={filter.showIncidents} onChange={() => setFilter({ ...filter, showIncidents: !filter.showIncidents })} />
               Show Active Alerts
             </label>
           </div>
         </div>
 
-        <div className="glass" style={{ padding: '1rem', width: '280px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <div className="glass" style={{ padding: '1rem', width: '100%', maxWidth: '280px', display: 'flex', flexDirection: 'column', gap: '0.75rem', pointerEvents: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.85rem' }}>
             <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: '#3b82f6', border: '2px solid white' }}></div>
             Available Agency
@@ -115,10 +115,10 @@ const MapPage = () => {
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
-        
+
         {filteredAgencies.map((agency) => (
-          <Marker 
-            key={agency._id} 
+          <Marker
+            key={agency._id}
             position={[agency.location.lat, agency.location.lng]}
             icon={getAgencyIcon(agency.status)}
           >
@@ -128,7 +128,7 @@ const MapPage = () => {
                   {agency.name}
                 </h3>
                 <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem' }}><strong>Type:</strong> {agency.type}</p>
-                <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem' }}><strong>Status:</strong> 
+                <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem' }}><strong>Status:</strong>
                   <span style={{ color: agency.status === 'active' ? '#10b981' : '#f59e0b', marginLeft: '5px', fontWeight: 600 }}>
                     {agency.status.toUpperCase()}
                   </span>
@@ -144,8 +144,8 @@ const MapPage = () => {
         ))}
 
         {filteredIncidents.map((incident) => (
-          <Marker 
-            key={incident._id} 
+          <Marker
+            key={incident._id}
             position={[incident.location.lat, incident.location.lng]}
             icon={L.divIcon({
               className: 'custom-incident-icon',
