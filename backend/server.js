@@ -14,8 +14,7 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  'https://rescuenet-frontend.onrender.com',
-  'https://rescuenet-frontend.onrender.com/'
+  'https://rescuenet-frontend.onrender.com'
 ];
 
 app.use(cors({

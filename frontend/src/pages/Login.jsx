@@ -22,9 +22,10 @@ const Login = () => {
       navigate('/dashboard');
     } catch (err) {
       console.error('Login Error:', err);
-      const errorMsg = err.response?.data?.msg
-        || (err.request ? 'Could not reach the server. Please check your internet or backend status.' : 'An unexpected error occurred.');
-
+      const errorMsg = err.response?.data?.errors
+        ? err.response.data.errors.map(e => e.msg).join(', ')
+        : err.response?.data?.msg
+        || 'Invalid credentials. Please try again.';
       setError(errorMsg);
     } finally {
       setLoading(false);
@@ -33,7 +34,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="glass auth-card" style={{ width: '95%', maxWidth: '450px', margin: '1rem', padding: 'clamp(1.5rem, 5vw, 2.5rem)' }}>
+      <div className="glass auth-card">
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Shield size={48} color="#ef4444" style={{ margin: '0 auto 1rem' }} />
           <h2 style={{ fontSize: '1.875rem', fontWeight: 700 }}>Welcome Back</h2>
