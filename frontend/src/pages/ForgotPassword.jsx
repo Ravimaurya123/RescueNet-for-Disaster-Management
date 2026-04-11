@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import { Mail, ArrowLeft, Shield, CheckCircle } from 'lucide-react';
 
 const ForgotPassword = () => {
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('/api/auth/forgot-password', { email });
+      const res = await api.post('/api/auth/forgot-password', { email });
       setMessage(res.data.msg);
       if (res.data.resetToken) {
         setResetToken(res.data.resetToken);
@@ -44,14 +44,14 @@ const ForgotPassword = () => {
               <CheckCircle size={32} style={{ marginBottom: '0.5rem' }} />
               <p>{message}</p>
             </div>
-            
+
             {resetToken && (
-                <div className="glass" style={{ padding: '1rem', marginBottom: '1.5rem', textAlign: 'left' }}>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.5rem' }}>Demo Mode: Click below to reset</p>
-                    <Link to={`/reset-password/${resetToken}`} style={{ color: '#3b82f6', fontWeight: 600, textDecoration: 'none' }}>
-                        → Reset My Password Now
-                    </Link>
-                </div>
+              <div className="glass" style={{ padding: '1rem', marginBottom: '1.5rem', textAlign: 'left' }}>
+                <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.5rem' }}>Demo Mode: Click below to reset</p>
+                <Link to={`/reset-password/${resetToken}`} style={{ color: '#3b82f6', fontWeight: 600, textDecoration: 'none' }}>
+                  → Reset My Password Now
+                </Link>
+              </div>
             )}
 
             <Link to="/login" className="nav-link" style={{ justifyContent: 'center' }}>
@@ -71,9 +71,9 @@ const ForgotPassword = () => {
                 <label className="form-label">Email Address</label>
                 <div style={{ position: 'relative' }}>
                   <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                  <input 
-                    type="email" 
-                    className="form-input" 
+                  <input
+                    type="email"
+                    className="form-input"
                     placeholder="your-email@example.com"
                     style={{ paddingLeft: '40px' }}
                     value={email}
@@ -83,9 +83,9 @@ const ForgotPassword = () => {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
-                className="btn-primary" 
+              <button
+                type="submit"
+                className="btn-primary"
                 style={{ width: '100%', justifyContent: 'center' }}
                 disabled={loading}
               >

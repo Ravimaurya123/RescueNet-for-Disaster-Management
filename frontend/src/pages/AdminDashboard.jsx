@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { Shield, Users, AlertTriangle, CheckCircle, Trash2, ExternalLink } from 'lucide-react';
 
@@ -14,13 +14,13 @@ const AdminDashboard = () => {
     const fetchAdminData = async () => {
       try {
         const [agenciesRes, incidentsRes] = await Promise.all([
-          axios.get('/api/agencies'),
-          axios.get('/api/incidents')
+          api.get('/api/agencies'),
+          api.get('/api/incidents')
         ]);
-        
+
         setAgencies(agenciesRes.data);
         setIncidents(incidentsRes.data);
-        
+
         setStats({
           totalAgencies: agenciesRes.data.length,
           activeIncidents: incidentsRes.data.filter(i => i.status !== 'Resolved').length,
@@ -38,9 +38,9 @@ const AdminDashboard = () => {
   const handleDeleteAgency = async (id) => {
     if (!window.confirm('Delete this agency permanently? This will also remove associated users.')) return;
     try {
-      await axios.delete(`/api/agencies/${id}`);
+      await api.delete(`/api/agencies/${id}`);
       setAgencies(agencies.filter(a => a._id !== id));
-      setStats({...stats, totalAgencies: stats.totalAgencies - 1});
+      setStats({ ...stats, totalAgencies: stats.totalAgencies - 1 });
     } catch (err) {
       alert('Failed to delete agency');
     }
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   const handleDeleteIncident = async (id) => {
     if (!window.confirm('Remove this incident report?')) return;
     try {
-      await axios.delete(`/api/incidents/${id}`);
+      await api.delete(`/api/incidents/${id}`);
       setIncidents(incidents.filter(i => i._id !== id));
     } catch (err) {
       alert('Failed to delete incident');

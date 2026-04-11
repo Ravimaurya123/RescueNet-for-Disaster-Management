@@ -21,7 +21,11 @@ const Login = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.msg || 'Invalid credentials. Please try again.');
+      console.error('Login Error:', err);
+      const errorMsg = err.response?.data?.msg
+        || (err.request ? 'Could not reach the server. Please check your internet or backend status.' : 'An unexpected error occurred.');
+
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -11,13 +11,16 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors({
-  origin:[
-    "http://localhost:5173",
-    "https://rescuenet-frontend.onrender.com"
-  ],
-  credentials:true
-}));
+// app.use(cors({
+//   origin:[
+//     "http://localhost:5173",
+//     "https://rescuenet-frontend.onrender.com"
+//   ],
+//   credentials:true
+// }));
+
+
+app.use(cors({ origin: 'https://rescuenet-frontend.onrender.com' }));
 
 
 app.use(express.json());
