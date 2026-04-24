@@ -17,8 +17,9 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  process.env.FRONTEND_URL,                         // Vercel frontend URL
   'https://rescuenet-frontend.onrender.com'
-];
+].filter(Boolean); // Remove undefined if FRONTEND_URL not set
 
 app.use(cors({
   origin: allowedOrigins,
