@@ -5,8 +5,8 @@
   --primary-glow: rgba(239, 68, 68, 0.5);
   --secondary: #3b82f6;
   --accent: #10b981;
-  --bg-dark: #070a13;
-  --bg-surface: #0f172a;
+  --bg-dark: #0a1c34;
+  --bg-surface: #f5f4e8;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --glass: rgba(15, 23, 42, 0.6);
@@ -29,8 +29,8 @@
 body {
   background-color: var(--bg-dark);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(239, 68, 68, 0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgb(28, 220, 237) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgb(167, 210, 13) 0px, transparent 50%);
   color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
@@ -240,6 +240,12 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .fade-in {
   animation: fadeIn 0.5s ease forwards;
 }
@@ -248,4 +254,38 @@ body {
   .navbar { padding: 0 1.5rem; }
   .nav-links { display: none; }
   .auth-card { padding: 2rem 1.5rem; }
+}
+
+/* --- Colorful Blinking Cursor Overhaul --- */
+body, a, button, select {
+  cursor: none !important; 
+}
+
+input, textarea {
+  cursor: text !important;
+  caret-color: #ff00ff;
+}
+
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999999;
+  /* Align the index finger tip closely to the mouse dot */
+  transform: translate(-11px, -2px);
+  mix-blend-mode: screen;
+  animation: color-blink 1.2s infinite alternate;
+  transition: transform 0.05s linear;
+}
+
+@keyframes color-blink {
+  0%   { color: #ff00aa; filter: drop-shadow(0 0 10px #ff00aa); }
+  25%  { color: #00eeff; filter: drop-shadow(0 0 10px #00eeff); }
+  50%  { color: #39ff14; filter: drop-shadow(0 0 10px #39ff14); }
+  75%  { color: #ffff00; filter: drop-shadow(0 0 10px #ffff00); }
+  100% { color: #ff0055; filter: drop-shadow(0 0 10px #ff0055); }
+}
+
+@keyframes pulse-cursor {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.8; }
 }

@@ -34,6 +34,11 @@ router.post('/', auth, async (req, res) => {
     });
 
     const incident = await newIncident.save();
+
+    // Broadcast new incident to all connected clients instantly
+    const io = req.app.get('io');
+    if (io) io.emit('newIncident', incident);
+
     res.json(incident);
   } catch (err) {
     console.error(err.message);
@@ -64,6 +69,10 @@ router.put('/:id', auth, async (req, res) => {
       { new: true }
     );
 
+    // Broadcast incident update
+    const io = req.app.get('io');
+    if (io) io.emit('incidentUpdated', incident);
+
     res.json(incident);
   } catch (err) {
     console.error(err.message);
@@ -86,6 +95,11 @@ router.delete('/:id', auth, async (req, res) => {
     }
 
     await Incident.findByIdAndDelete(req.params.id);
+    
+    // Broadcast removal to update map instantly
+    const io = req.app.get('io');
+    if (io) io.emit('incidentDeleted', req.params.id);
+
     res.json({ msg: 'Incident report removed' });
   } catch (err) {
     console.error(err.message);

@@ -95,7 +95,7 @@ const Register = () => {
               <label className="form-label">Official Agency Name</label>
               <div style={{ position: 'relative' }}>
                 <User size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                <input name="name" type="text" className="form-input" placeholder="e.g. Red Cross International" style={{ paddingLeft: '40px' }} value={formData.name} onChange={handleChange} required />
+                <input name="name" type="text" className="form-input" placeholder="Enter the Agency Name here.." style={{ paddingLeft: '40px' }} value={formData.name} onChange={handleChange} required />
               </div>
             </div>
 
@@ -103,7 +103,7 @@ const Register = () => {
               <label className="form-label">Email Address</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                <input name="email" type="email" className="form-input" placeholder="hq@agency.com" style={{ paddingLeft: '40px' }} value={formData.email} onChange={handleChange} required />
+                <input name="email" type="email" className="form-input" placeholder="Enter the gmail.com" style={{ paddingLeft: '40px' }} value={formData.email} onChange={handleChange} required />
               </div>
             </div>
 
@@ -119,7 +119,7 @@ const Register = () => {
               <label className="form-label">Contact Number</label>
               <div style={{ position: 'relative' }}>
                 <Phone size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
-                <input name="phone" type="tel" className="form-input" placeholder="+1 (555) 000-0000" style={{ paddingLeft: '40px' }} value={formData.phone} onChange={handleChange} required />
+                <input name="phone" type="tel" className="form-input" placeholder="+91 987654321" style={{ paddingLeft: '40px' }} value={formData.phone} onChange={handleChange} required />
               </div>
             </div>
 
@@ -142,16 +142,16 @@ const Register = () => {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem' }}>
                 <div className="form-group">
                   <label className="form-label">Station Latitude</label>
-                  <input name="lat" type="number" step="any" className="form-input" value={formData.lat} onChange={handleChange} required />
+                  <input name="lat" type="number" step="any" className="form-input" value={formData.lat} onChange={handleChange} placeholder="Enter the Latitude here..."required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Station Longitude</label>
-                  <input name="lng" type="number" step="any" className="form-input" value={formData.lng} onChange={handleChange} required />
+                  <input name="lng" type="number" step="any" className="form-input" value={formData.lng} onChange={handleChange} placeholder="Enter the Longitude here..."required />
                 </div>
               </div>
               <div className="form-group" style={{ marginBottom: 0 }}>
                 <label className="form-label">Headquarters Address</label>
-                <input name="address" type="text" className="form-input" placeholder="e.g. 101 Command Center, Silicon Valley" value={formData.address} onChange={handleChange} required />
+                <input name="address" type="text" className="form-input" placeholder="Enter your Address here..." value={formData.address} onChange={handleChange} required />
               </div>
             </div>
 
